@@ -3,18 +3,6 @@ package ziph;
 import java.util.ArrayList;
 import java.util.List;
 
-class KeyValue {
-  public String key;
-  public String type;
-  public String value;
-
-  public KeyValue(String key, String type, String value) {
-    this.key = key;
-    this.type = type;
-    this.value = value;
-  }
-}
-
 public class JSONObject {
   private List<KeyValue> jsonData;
 
@@ -74,6 +62,14 @@ public class JSONObject {
     }
     this.jsonData.add(new KeyValue(key, "string", value));
   }
+  public void set(String key, JSONObject value) {
+    int setIndex = this.checkIfSetKeyInsteadOfAddKey(key);
+    if (setIndex != -1) {
+      this.jsonData.set(setIndex, new KeyValue(key, "object", value.toString()));
+      return;
+    }
+    this.jsonData.add(new KeyValue(key, "object", value.toString()));
+  }
 
   public void setNull(String key) {
     int setIndex = this.checkIfSetKeyInsteadOfAddKey(key);
@@ -99,6 +95,8 @@ public class JSONObject {
             return Double.parseDouble(currentKeyValue.value);
           case "string":
             return currentKeyValue.value;
+          case "object":
+            return new JSONObject();
           case "null":
             return null;
         }
