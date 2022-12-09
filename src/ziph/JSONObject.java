@@ -75,6 +75,15 @@ public class JSONObject {
     this.jsonData.add(new KeyValue(key, "string", value));
   }
 
+  public void setNull(String key) {
+    int setIndex = this.checkIfSetKeyInsteadOfAddKey(key);
+    if (setIndex != -1) {
+      this.jsonData.set(setIndex, new KeyValue(key, "null", "null"));
+      return;
+    }
+    this.jsonData.add(new KeyValue(key, "null", "null"));
+  }
+
   public Object get(String key) {
     for (int i = 0; i < this.jsonData.size(); i++) {
       KeyValue currentKeyValue = this.jsonData.get(i);
@@ -90,6 +99,8 @@ public class JSONObject {
             return Double.parseDouble(currentKeyValue.value);
           case "string":
             return currentKeyValue.value;
+          case "null":
+            return null;
         }
     }
     return null;
