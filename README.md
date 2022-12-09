@@ -2,7 +2,7 @@
 A modern library for working with JSON in Java
 
 # Docs
-This project is a WIP (Work-In-Progress) so no docs available yet
+Documentation is <a href="docs">here</a>
 
 # To-do
 To-do list is <a href="to-do.md">here</a>
