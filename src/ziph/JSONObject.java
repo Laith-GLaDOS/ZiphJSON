@@ -46,14 +46,6 @@ public class JSONObject {
     }
     this.jsonData.add(new KeyValue(key, "float", Float.toString(value)));
   }
-  public void set(String key, double value) {
-    int setIndex = this.checkIfSetKeyInsteadOfAddKey(key);
-    if (setIndex != -1) {
-      this.jsonData.set(setIndex, new KeyValue(key, "double", Double.toString(value)));
-      return;
-    }
-    this.jsonData.add(new KeyValue(key, "double", Double.toString(value)));
-  }
   public void set(String key, String value) {
     int setIndex = this.checkIfSetKeyInsteadOfAddKey(key);
     if (setIndex != -1) {
@@ -91,8 +83,6 @@ public class JSONObject {
             return Integer.parseInt(currentKeyValue.value);
           case "float":
             return Float.parseFloat(currentKeyValue.value);
-          case "double":
-            return Double.parseDouble(currentKeyValue.value);
           case "string":
             return currentKeyValue.value;
           case "object":
