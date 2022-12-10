@@ -20,7 +20,7 @@ public class JSONObjectFromString extends JSONObject {
       if (currentKeyValueAsStringArray.length != 2)
         throw new InvalidJSONException();
       String currentValue = currentKeyValueAsStringArray[1].trim();
-      String currentKey = jsonKeysAndValues[i].split(":")[0].trim().replaceAll("^\\\"|\"$", "");
+      String currentKey = jsonKeysAndValues[i].split(":")[0].trim().replaceAll("^\"|\"$", "").replaceAll("\\\"", "\"");
       try {
         if (!currentValue.equals("true") && !currentValue.equals("false")) throw new Exception();
         currentKeyValue = new KeyValue(currentKey, "bool", currentValue);
@@ -38,7 +38,7 @@ public class JSONObjectFromString extends JSONObject {
               currentKeyValue = new KeyValue(currentKey, "double", currentValue);
             } catch (Exception e3) {
               if (currentValue.startsWith("\"") && currentValue.endsWith("\""))
-                currentKeyValue = new KeyValue(currentKey, "string", currentValue.replace("\"", "").replaceAll("\"$", ""));
+                currentKeyValue = new KeyValue(currentKey, "string", currentValue.replaceAll("^\"|\"$", "").replaceAll("\\\"", "\""));
               else if (currentValue.startsWith("{") && currentValue.endsWith("}"))
                 currentKeyValue = new KeyValue(currentKey, "object", currentValue);
             }
