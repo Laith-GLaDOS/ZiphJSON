@@ -1,2 +1,3 @@
 # To-do
- - Add support for building a JSONObject from a JSON string
+ - Fix JSONObjectFromString flaws
+ - Add more types to set function in JSONObject
