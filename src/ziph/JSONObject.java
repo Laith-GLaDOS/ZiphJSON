@@ -96,7 +96,9 @@ public class JSONObject {
           case "string":
             return currentKeyValue.value;
           case "object":
-            return new JSONObject();
+            try {
+              return new JSONObjectFromString(currentKeyValue.value);
+            } catch (InvalidJSONException e) {}
           case "null":
             return null;
         }
