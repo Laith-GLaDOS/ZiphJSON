@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSONObject {
-  private List<KeyValue> jsonData;
+  public List<KeyValue> jsonData;
 
   public JSONObject() {
     this.jsonData = new ArrayList<KeyValue>();
   }
 
-  private int checkIfSetKeyInsteadOfAddKey(String key) {
+  public int checkIfSetKeyInsteadOfAddKey(String key) {
     int setIndex = -1;
 
     for (int i = 0; i < this.jsonData.size(); i++)
@@ -119,7 +119,7 @@ public class JSONObject {
       }
   }
 
-  public String toString() {
+  public String toJSONString() {
     String jsonString = "{";
     for (int i = 0; i < this.jsonData.size(); i++) {
       KeyValue currentKeyValue = this.jsonData.get(i);
