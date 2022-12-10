@@ -43,14 +43,15 @@ public class JSONObjectFromString extends JSONObject {
         }
       }
       if (currentKeyValue == null) throw new InvalidJSONException();
-      int setIndex = checkIfSetKeyInsteadOfAddKey(currentKeyValue.key);
-      if (setIndex != -1) this.jsonData.set(setIndex, currentKeyValue);
-      else this.jsonData.add(currentKeyValue);
+      int setIndex = super.checkIfSetKeyInsteadOfAddKey(currentKeyValue.key);
+      if (setIndex != -1) super.jsonData.set(setIndex, currentKeyValue);
+      else super.jsonData.add(currentKeyValue);
     }
   }
 
   public JSONObjectFromString(String jsonString) throws InvalidJSONException {
-    this.jsonData = new ArrayList<KeyValue>();
+    super();
+    super.jsonData = new ArrayList<KeyValue>();
     this.parseString(jsonString);
   }
 }
