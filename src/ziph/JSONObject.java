@@ -7,7 +7,7 @@ public class JSONObject {
   public List<KeyValue> jsonData;
 
   public JSONObject() {
-    this.jsonData = new ArrayList<KeyValue>();
+    this.jsonData = new ArrayList<>();
   }
 
   public int checkIfSetKeyInsteadOfAddKey(String key) {
@@ -21,7 +21,6 @@ public class JSONObject {
 
     return setIndex;
   }
-
   public void set(String key, boolean value) {
     int setIndex = this.checkIfSetKeyInsteadOfAddKey(key);
     if (setIndex != -1) {
@@ -81,12 +80,11 @@ public class JSONObject {
   }
 
   public Object get(String key) {
-    for (int i = 0; i < this.jsonData.size(); i++) {
-      KeyValue currentKeyValue = this.jsonData.get(i);
+    for (KeyValue currentKeyValue : this.jsonData) {
       if (currentKeyValue.key.equals(key))
         switch (currentKeyValue.type) {
           case "bool":
-            return (currentKeyValue.value.equals("true") ? true : false);
+            return currentKeyValue.value.equals("true");
           case "int":
             return Integer.parseInt(currentKeyValue.value);
           case "float":
@@ -98,7 +96,8 @@ public class JSONObject {
           case "object":
             try {
               return new JSONObjectFromString(currentKeyValue.value);
-            } catch (InvalidJSONException e) {}
+            } catch (InvalidJSONException ignored) {
+            }
           case "null":
             return null;
         }
@@ -107,9 +106,8 @@ public class JSONObject {
   }
 
   public List<String> getKeys() {
-    List<String> keys = new ArrayList<String>();
-    for (int i = 0; i < this.jsonData.size(); i++)
-      keys.add(this.jsonData.get(i).key);
+    List<String> keys = new ArrayList<>();
+    for (KeyValue jsonDatum : this.jsonData) keys.add(jsonDatum.key);
     return keys;
   }
 
@@ -122,13 +120,13 @@ public class JSONObject {
   }
 
   public String toJSONString() {
-    String jsonString = "{";
+    StringBuilder jsonString = new StringBuilder("{");
     for (int i = 0; i < this.jsonData.size(); i++) {
       KeyValue currentKeyValue = this.jsonData.get(i);
-      String valueAsJsonValue = "";
+      String valueAsJsonValue;
       if (currentKeyValue.type.equals("string")) valueAsJsonValue = "\"" + currentKeyValue.value + "\"";
       else valueAsJsonValue = currentKeyValue.value;
-      jsonString += "\"" + currentKeyValue.key.replaceAll("\"", "\\\"") + "\":" + valueAsJsonValue.replaceAll("\"", "\\\"") + (i != jsonData.size() - 1 ? "," : "");
+      jsonString.append("\"").append(currentKeyValue.key.replaceAll("\"", "\\\"")).append("\":").append(valueAsJsonValue.replaceAll("\"", "\\\"")).append(i != jsonData.size() - 1 ? "," : "");
     }
     return jsonString + "}";
   }

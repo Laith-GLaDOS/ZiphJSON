@@ -22,7 +22,7 @@ public class JSONObjectFromString extends JSONObject {
       String currentValue = currentKeyValueAsStringArray[1].trim();
       String currentKey = jsonKeysAndValues[i].split(":")[0].trim().replaceAll("^\\\"|\"$", "");
       try {
-        if (currentValue != "true" && currentValue != "false") throw new Exception();
+        if (!currentValue.equals("true") && !currentValue.equals("false")) throw new Exception();
         currentKeyValue = new KeyValue(currentKey, "bool", currentValue);
       } catch (Exception e0) {
         try {
