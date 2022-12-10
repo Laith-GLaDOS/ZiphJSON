@@ -107,7 +107,7 @@ public class JSONObject {
 
   public List<String> getKeys() {
     List<String> keys = new ArrayList<>();
-    for (KeyValue jsonDatum : this.jsonData) keys.add(jsonDatum.key);
+    for (KeyValue currentKeyValue : this.jsonData) keys.add(currentKeyValue.key);
     return keys;
   }
 
