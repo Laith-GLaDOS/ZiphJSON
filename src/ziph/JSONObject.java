@@ -65,10 +65,10 @@ public class JSONObject {
   public void set(String key, JSONObject value) {
     int setIndex = this.checkIfSetKeyInsteadOfAddKey(key);
     if (setIndex != -1) {
-      this.jsonData.set(setIndex, new KeyValue(key, "object", value.toString()));
+      this.jsonData.set(setIndex, new KeyValue(key, "object", value.toJSONString()));
       return;
     }
-    this.jsonData.add(new KeyValue(key, "object", value.toString()));
+    this.jsonData.add(new KeyValue(key, "object", value.toJSONString()));
   }
 
   public void setNull(String key) {
