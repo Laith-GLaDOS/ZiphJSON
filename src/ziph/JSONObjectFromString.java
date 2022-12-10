@@ -38,6 +38,8 @@ public class JSONObjectFromString extends JSONObject {
             } catch (Exception e3) {
               if (currentValue.startsWith("\"") && currentValue.endsWith("\""))
                 currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "string", currentValue.replace("\"", "").replaceAll("\"$", ""));
+              else if (currentValue.startsWith("{") && currentValue.endsWith("}"))
+                currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "object", currentValue);
             }
           }
         }
