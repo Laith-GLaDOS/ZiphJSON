@@ -12,7 +12,7 @@ public class JSONObjectFromString extends JSONObject {
     if (!trimmedJsonString.startsWith("{") || !trimmedJsonString.endsWith("}"))
       throw new InvalidJSONException();
 
-    String[] jsonKeysAndValues = trimmedJsonString.replace("{", "").replaceAll("}$", "").split(",");
+    String[] jsonKeysAndValues = trimmedJsonString.replaceAll("^\\{", "").replaceAll("}$", "").split(",");
     for (int i = 0; i < jsonKeysAndValues.length; i++) {
       jsonKeysAndValues[i] = jsonKeysAndValues[i].trim();
       KeyValue currentKeyValue = null;
@@ -20,26 +20,27 @@ public class JSONObjectFromString extends JSONObject {
       if (currentKeyValueAsStringArray.length != 2)
         throw new InvalidJSONException();
       String currentValue = currentKeyValueAsStringArray[1].trim();
+      String currentKey = jsonKeysAndValues[i].split(":")[0].trim().replaceAll("^\\\"|\"$", "");
       try {
         if (currentValue != "true" && currentValue != "false") throw new Exception();
-        currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "bool", currentValue);
+        currentKeyValue = new KeyValue(currentKey, "bool", currentValue);
       } catch (Exception e0) {
         try {
           Integer.parseInt(currentValue);
-          currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "int", currentValue);
+          currentKeyValue = new KeyValue(currentKey, "int", currentValue);
         } catch (Exception e1) {
           try {
             Float.parseFloat(currentValue);
-            currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "float", currentValue);
+            currentKeyValue = new KeyValue(currentKey, "float", currentValue);
           } catch (Exception e2) {
             try {
               Double.parseDouble(currentValue);
-              currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "double", currentValue);
+              currentKeyValue = new KeyValue(currentKey, "double", currentValue);
             } catch (Exception e3) {
               if (currentValue.startsWith("\"") && currentValue.endsWith("\""))
-                currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "string", currentValue.replace("\"", "").replaceAll("\"$", ""));
+                currentKeyValue = new KeyValue(currentKey, "string", currentValue.replace("\"", "").replaceAll("\"$", ""));
               else if (currentValue.startsWith("{") && currentValue.endsWith("}"))
-                currentKeyValue = new KeyValue(jsonKeysAndValues[i].split(":")[0].trim().replace("\"", "").replaceAll("\"$", ""), "object", currentValue);
+                currentKeyValue = new KeyValue(currentKey, "object", currentValue);
             }
           }
         }
