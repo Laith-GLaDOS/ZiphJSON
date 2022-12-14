@@ -1,6 +1,6 @@
 package ziph;
 
-public class KeyValue {
+class KeyValue {
   public String key;
   public String type;
   public String value;
